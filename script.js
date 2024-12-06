@@ -129,14 +129,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function checkUsername() {
         //... code for checking if a username cookie is set and adjusting the UI
-        let user = getCookie("username");
-        if (user != "") {
-         alert("Welcome again " + user);
+        const username = getCookie("username");
+        if (username) {
+            //  made it where the user is returning
+            document.getElementById("username").style.display = "none"; // Hide username input
+            document.getElementById("new-player").classList.remove("hidden"); // Show "New Player" button
         } else {
-          user = prompt("Please enter your name:", "");
-          if (user != "" && user != null) {
-            setCookie("username", user, 365);
-          }
+            //  made it where the user is a new user
+            document.getElementById("username").style.display = "block"; // Show username input
+            document.getElementById("new-player").classList.add("hidden"); // Hide "New Player" button
         }
     }
     function setCookie(name, value, days) {
@@ -147,19 +148,19 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     
     function getCookie(name) {
-        let name = name + "=";
+        let nameEQ = name + "=";
         let decodedCookie = decodeURIComponent(document.cookie);
-        let cookies = decodedCookie.split(';');
-        for(let i = 0; i <ca.length; i++) {
-            let c = ca[i];
+        let cookies = decodedCookie.split(';'); // Correct variable name
+        for (let i = 0; i < cookies.length; i++) { // Use cookies here
+            let c = cookies[i];
             while (c.charAt(0) == ' ') {
                 c = c.substring(1);
             }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-                }
+            if (c.indexOf(nameEQ) == 0) {
+                return c.substring(nameEQ.length, c.length);
             }
-            return "";
+        }
+        return "";
     }
     function saveScore(username, score) {
         //... code for saving the score to localStorage
@@ -172,11 +173,12 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error("Error saving score:", error);
         }
     }
+    
     function newPlayer() {
         //... code for clearing the username cookie and updating the UI
         setCookie("username", "", -1); // Clears the username cookie
         checkUsername(); // Reset UI for new session
-        document.getElementById("scoreTable").innerHTML = ""; // Clear any existing scores displayed
+        document.getElementById("score-table").innerHTML = ""; // Clear any existing scores displayed
         fetchQuestions(); // Fetch new trivia question
     }
     function calculateScore() {
