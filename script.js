@@ -103,6 +103,29 @@ document.addEventListener("DOMContentLoaded", function () {
     function handleFormSubmit(event) {
         event.preventDefault();
         //... form submission logic including setting cookies and calculating score
+        //prevent default form submission
+        event.preventDefault();
+
+        //checks for existing username
+        let username = getCookie("username");
+
+        //saves a new username for 365 days
+        if (username=== "") {
+            username = prompt("Please enter your username:", "");
+            if (username !== "" && username !== null) {
+                setCookie("username", username, 365);
+            }
+
+        }
+
+        const score = calculateScore();
+        saveScore(username, score);
+
+        //refresh the game
+        displayScores();
+        checkUsername();
+        fetchQuestions();
+        //... form submission logic including setting cookies and calculating score
     }
     function checkUsername() {
         //... code for checking if a username cookie is set and adjusting the UI
