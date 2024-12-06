@@ -168,7 +168,24 @@ document.addEventListener("DOMContentLoaded", function () {
         //... code for clearing the username cookie and updating the UI
     }
     function calculateScore() {
-        //... code for calculating the score
+    //... code for calculating the score
+        let score = 0;
+        const questionContainers = document.querySelectorAll("#question-container > div");
+
+        questionContainers.forEach((questionContainer, index) => {
+            const selectedAnswer = questionContainer.querySelector(
+                `input[name="answer${index}"]:checked`
+            );
+
+            if (selectedAnswer) {
+                const correctAnswer = selectedAnswer.dataset.correct === "true";
+                if (correctAnswer) {
+                    score++;
+                }
+            }
+        });
+
+        return score; // Return the calculated score
     }
     function displayScores() {
         //... code for displaying scores from localStorage
