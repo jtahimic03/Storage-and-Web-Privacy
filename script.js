@@ -106,6 +106,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function checkUsername() {
         //... code for checking if a username cookie is set and adjusting the UI
+        let user = getCookie("username");
+        if (user != "") {
+         alert("Welcome again " + user);
+        } else {
+          user = prompt("Please enter your name:", "");
+          if (user != "" && user != null) {
+            setCookie("username", user, 365);
+          }
+        }
     }
     function setCookie(name, value, days) {
         const date = new Date()
