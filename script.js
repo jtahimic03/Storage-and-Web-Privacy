@@ -132,12 +132,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const username = getCookie("username");
         if (username) {
             //  made it where the user is returning
-            document.getElementById("username").style.display = "none"; // Hide username input
-            document.getElementById("new-player").classList.remove("hidden"); // Show "New Player" button
+            document.getElementById("username").style.display = "none";
+            document.getElementById("new-player").classList.remove("hidden"); 
         } else {
             //  made it where the user is a new user
-            document.getElementById("username").style.display = "block"; // Show username input
-            document.getElementById("new-player").classList.add("hidden"); // Hide "New Player" button
+            document.getElementById("username").style.display = "block"; 
+            document.getElementById("new-player").classList.add("hidden"); 
         }
     }
     function setCookie(name, value, days) {
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `input[name="answer${index}"]:checked`
             );
 
-            if (selectedAnswer) {
+            if (selectedAnswer) {//if selected answer is true add +1 to score
                 const correctAnswer = selectedAnswer.dataset.correct === "true";
                 if (correctAnswer) {
                     score++;
