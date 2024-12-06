@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // checkUsername(); Uncomment once completed
     fetchQuestions();
     displayScores();
+    checkUsername();
 
     /**
      * Fetches trivia questions from the API and displays them.
@@ -104,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function () {
         event.preventDefault();
         //... form submission logic including setting cookies and calculating score
         //prevent default form submission
-        event.preventDefault();
 
         //checks for existing username
         let username = getCookie("username");
@@ -163,9 +163,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function saveScore(username, score) {
         //... code for saving the score to localStorage
+        try {
+            let scores = JSON.parse(localStorage.getItem("scores")) || [];
+            scores.push({ username, score, date: new Date().toISOString() });
+            localStorage.setItem("scores", JSON.stringify(scores));
+            console.log("Score saved:", { username, score });
+        } catch (error) {
+            console.error("Error saving score:", error);
+        }
     }
     function newPlayer() {
         //... code for clearing the username cookie and updating the UI
+        setCookie("username", "", -1); // Clears the username cookie
+        checkUsername(); // Reset UI for new session
+        document.getElementById("scoreTable").innerHTML = ""; // Clear any existing scores displayed
+        fetchQuestions(); // Fetch new trivia question
     }
     function calculateScore() {
     //... code for calculating the score
@@ -189,5 +201,14 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     function displayScores() {
         //... code for displaying scores from localStorage
+        const scoreTableBody = document.querySelector("#score-table tbody");
+        scoreTableBody.innerHTML = ""; // Clear existing scores
+    
+        const scores = JSON.parse(localStorage.getItem("scores")) || [];
+        scores.forEach(scoreData => {
+            const row = document.createElement("tr");
+            row.innerHTML = `<td>${scoreData.username}</td><td>${scoreData.score}</td>`;
+            scoreTableBody.appendChild(row);
+        });
     }
 });
